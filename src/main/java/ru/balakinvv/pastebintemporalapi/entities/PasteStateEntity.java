@@ -34,6 +34,6 @@ public class PasteStateEntity {
     @Builder.Default
     @OneToMany
     @JoinColumn(name = "paste_state_id", referencedColumnName = "id")
-    List<PasteEntity> pastes =  new ArrayList<>();
+    private List<PasteEntity> pastes =  new ArrayList<>();
 
 }

@@ -22,13 +22,13 @@ public class ProjectEntity {
     private String title;
 
     @Builder.Default
-    Instant createdAt = Instant.now();
+    private Instant createdAt = Instant.now();
 
     @Builder.Default
-    Instant updatedAt = Instant.now();
+    private Instant updatedAt = Instant.now();
 
     @Builder.Default
     @OneToMany
     @JoinColumn(name = "project_id")
-    List<PasteStateEntity> pasteStates = new ArrayList<>();
+    private List<PasteStateEntity> pasteStates = new ArrayList<>();
 }
