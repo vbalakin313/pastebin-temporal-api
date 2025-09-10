@@ -26,7 +26,7 @@ public class ProjectController {
 
     private static final String FETCH_PROJECTS = "/v1/projects";
     private static final String CREATE_PROJECT = "/v1/projects/create";
-    private static final String UPDATE_PROJECTS = "/v1/projects/update";
+    private static final String UPDATE_PROJECT = "/v1/projects/update";
     private static final String DELETE_PROJECT = "/v1/projects/{projectId}";
 
     @GetMapping(FETCH_PROJECTS)
@@ -63,5 +63,31 @@ public class ProjectController {
         projectRepository.saveAndFlush(newProject);
 
         return projectDtoFactory.createProjectDto(newProject);
+    }
+
+
+    @PutMapping(UPDATE_PROJECT)
+    public ProjectDto updateProject(@RequestParam(name = "project_id") Long projectId,
+                                    @RequestParam(name = "project_title") String projectTitle) {
+
+        ProjectEntity projectEntity = projectRepository.findById(projectId).orElseThrow(
+                () -> new BadRequestException(String.format("Project %s not found", projectTitle))
+        );
+
+        projectEntity.setTitle(projectTitle);
+        projectRepository.saveAndFlush(projectEntity);
+
+        return projectDtoFactory.createProjectDto(projectEntity);
+    }
+
+    @DeleteMapping(DELETE_PROJECT)
+    public String deleteProject(@RequestParam(name = "project_id") Long projectId){
+        ProjectEntity projectEntity = projectRepository.findById(projectId).orElseThrow(
+                () -> new BadRequestException(String.format("Project %s not found", projectId))
+        );
+
+        projectRepository.delete(projectEntity);
+
+        return String.format("Project %s deleted", projectId);
     }
 }
