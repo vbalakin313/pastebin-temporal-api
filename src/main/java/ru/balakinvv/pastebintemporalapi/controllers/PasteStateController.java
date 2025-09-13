@@ -39,7 +39,7 @@ public class PasteStateController {
                                           @RequestParam(name = "state_tags", required = false) List<String> tags) {
 
         ProjectEntity projectEntity = projectRepository.findById(projectId).orElseThrow(
-                () -> new BadRequestException("Project %s not found")
+                () -> new BadRequestException(String.format("State %s not found", projectId))
         );
 
         PasteStateEntity pasteStateEntity = PasteStateEntity.builder()
@@ -53,5 +53,48 @@ public class PasteStateController {
 
         pasteStateRepository.save(pasteStateEntity);
         return pasteStateDtoFactory.createPasteStateDto(pasteStateEntity);
+    }
+
+    @GetMapping(GET_STATE)
+    public PasteStateDto getPastState(@PathVariable Long stateId){
+
+        PasteStateEntity pasteState = pasteStateRepository.findById(stateId).orElseThrow(
+                () -> new BadRequestException(String.format("State %s not found", stateId))
+        );
+
+        return pasteStateDtoFactory.createPasteStateDto(pasteState);
+    }
+
+    @PutMapping(UPDATE_STATE)
+    public PasteStateDto updatePasteState(@PathVariable Long stateId,
+                                          @RequestParam(name = "title_state", required = false) String title,
+                                          @RequestParam(name = "description_state", required = false) String description,
+                                          @RequestParam(name = "category_state", required = false) String category,
+                                          @RequestParam(name = "tags_state" ,required = false) List<String> tags) {
+
+        PasteStateEntity pasteState = pasteStateRepository.findById(stateId).orElseThrow(
+                () -> new BadRequestException(String.format("State %s not found", stateId))
+        );
+
+        pasteState.setTitle(title);
+        pasteState.setDescription(description);
+        pasteState.setCategory(category);
+        pasteState.setTags(tags);
+
+        pasteStateRepository.saveAndFlush(pasteState);
+
+        return pasteStateDtoFactory.createPasteStateDto(pasteState);
+
+    }
+
+    @DeleteMapping(DELETE_PASTE_STATE)
+    public String deletePasteState(@PathVariable Long stateId) {
+
+        PasteStateEntity pasteState = pasteStateRepository.findById(stateId).orElseThrow(
+                () -> new BadRequestException(String.format("State %s not found", stateId))
+        );
+
+        pasteStateRepository.delete(pasteState);
+        return String.format("Paste state %s deleted", pasteState.getId());
     }
 }

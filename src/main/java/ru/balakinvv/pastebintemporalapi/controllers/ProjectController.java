@@ -81,7 +81,7 @@ public class ProjectController {
     }
 
     @DeleteMapping(DELETE_PROJECT)
-    public String deleteProject(@RequestParam(name = "project_id") Long projectId){
+    public String deleteProject(@PathVariable Long projectId){
         ProjectEntity projectEntity = projectRepository.findById(projectId).orElseThrow(
                 () -> new BadRequestException(String.format("Project %s not found", projectId))
         );
