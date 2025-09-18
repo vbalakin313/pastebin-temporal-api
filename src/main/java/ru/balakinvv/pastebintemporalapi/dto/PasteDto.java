@@ -1,10 +1,8 @@
 package ru.balakinvv.pastebintemporalapi.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.*;
+import ru.balakinvv.pastebintemporalapi.entities.PasteStateEntity;
 
 import java.time.Instant;
 
@@ -26,4 +24,7 @@ public class PasteDto {
     @NonNull
     @JsonProperty("created_at")
     private Instant createdAt = Instant.now();
+
+    @NonNull
+    private Long stateId;
 }

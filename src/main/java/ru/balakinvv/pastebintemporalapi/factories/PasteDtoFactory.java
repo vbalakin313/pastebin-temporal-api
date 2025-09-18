@@ -13,6 +13,7 @@ public class PasteDtoFactory {
                 .title(pasteEntity.getTitle())
                 .description(pasteEntity.getDescription())
                 .createdAt(pasteEntity.getCreatedAt())
+                .stateId(pasteEntity.getState().getId())
                 .build();
     }
 }

@@ -32,8 +32,7 @@ public class PasteStateEntity {
     private Instant createdAt = Instant.now();
 
     @Builder.Default
-    @OneToMany
-    @JoinColumn(name = "paste_state_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "state", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PasteEntity> pastes =  new ArrayList<>();
 
 }

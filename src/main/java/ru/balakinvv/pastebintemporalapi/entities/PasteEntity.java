@@ -23,4 +23,8 @@ public class PasteEntity {
 
     @Builder.Default
     private Instant createdAt = Instant.now();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "paste_state_id")
+    private PasteStateEntity state;
 }
